@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waypost — Your Fallbrook Welcome Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       QUESTIONNAIRE SECTION
+  ════════════════════════════════════════════════ -->
+  <div id="questionnaire-section">
+
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-mark">⊕</span>
+        <span class="logo-text">Waypost</span>
+      </div>
+      <p class="logo-tagline">Your Fallbrook Welcome Guide</p>
+    </header>
+
+    <main class="questionnaire-container">
+
+      <!-- Progress -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <p class="progress-label" id="progress-label">Step 1 of 5</p>
+
+      <!-- ─── Step 1: Welcome ─────────────────────── -->
+      <div class="step active" id="step-1">
+        <div class="step-header">
+          <span class="step-eyebrow">Welcome</span>
+          <h1 class="step-title">You just landed in Fallbrook.<br>Let's make it feel like home.</h1>
+          <p class="step-subtitle">Answer five quick questions and we'll build you a personalized guide to your new town.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label for="name-input" class="field-label">What's your first name?</label>
+            <input
+              type="text"
+              id="name-input"
+              class="text-input"
+              placeholder="e.g. Sarah"
+              autocomplete="given-name"
+              onkeydown="if(event.key==='Enter') nextStep(1)"
+            >
+            <p class="field-error hidden" id="name-error">Please enter your name to continue.</p>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-primary" onclick="nextStep(1)">Let's go &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 2: Family ──────────────────────── -->
+      <div class="step" id="step-2">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Family</span>
+          <h2 class="step-title">Tell us a bit about your household.</h2>
+          <p class="step-subtitle">We'll use this to surface the right schools, sports leagues, and family resources.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label class="field-label">Do you have children?</label>
+            <div class="toggle-group">
+              <button class="toggle-btn" data-group="hasKids" data-value="yes" onclick="toggleSelect(this)">Yes</button>
+              <button class="toggle-btn" data-group="hasKids" data-value="no" onclick="toggleSelect(this)">No — just me (and maybe a partner)</button>
+            </div>
+          </div>
+
+          <div class="field-group" id="kid-ages-group" style="display:none;">
+            <label class="field-label">What age ranges? <span class="field-hint">(select all that apply)</span></label>
+            <div class="checkbox-grid">
+              <label class="checkbox-card">
+                <input type="checkbox" name="kidAge" value="infant">
+                <span class="checkbox-label">
+                  <span class="checkbox-emoji">👶</span>
+                  <span class="checkbox-text">Infant / Toddler<small>Ages 0–3</small></span>
+                </span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" name="kidAge" value="preschool">
+                <span class="checkbox-label">
+                  <span class="checkbox-emoji">🎨</span>
+                  <span class="checkbox-text">Preschool<small>Ages 4–5</small></span>
+                </span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" name="kidAge" value="elementary">
+                <span class="checkbox-label">
+                  <span class="checkbox-emoji">📚</span>
+                  <span class="checkbox-text">Elementary<small>Ages 6–11</small></span>
+                </span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" name="kidAge" value="middle">
+                <span class="checkbox-label">
+                  <span class="checkbox-emoji">🎒</span>
+                  <span class="checkbox-text">Middle School<small>Ages 12–14</small></span>
+                </span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" name="kidAge" value="high">
+                <span class="checkbox-label">
+                  <span class="checkbox-emoji">🎓</span>
+                  <span class="checkbox-text">High School<small>Ages 15–18</small></span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevStep(2)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextStep(2)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 3: Priorities ──────────────────── -->
+      <div class="step" id="step-3">
+        <div class="step-header">
+          <span class="step-eyebrow">Priorities</span>
+          <h2 class="step-title">What matters most right now?</h2>
+          <p class="step-subtitle">Select everything on your radar — no wrong answers here.</p>
+        </div>
+        <div class="step-body">
+          <div class="checkbox-grid wide">
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="schools">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🏫</span>
+                <span class="checkbox-text">Schools &amp; Enrollment<small>Districts, deadlines, what to expect</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="sports">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">⚽</span>
+                <span class="checkbox-text">Youth Sports<small>Leagues, sign-up windows, locations</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="church">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">⛪</span>
+                <span class="checkbox-text">Faith Community<small>Local churches and worship communities</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="neighborhoods">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🏡</span>
+                <span class="checkbox-text">Neighborhoods &amp; Housing<small>Where to live, commute to Pendleton</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="coworking">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">💻</span>
+                <span class="checkbox-text">Co-working Spots<small>Remote-work-friendly cafes and spaces</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="priority" value="groups">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">👋</span>
+                <span class="checkbox-text">Local Groups &amp; Community<small>Spouse clubs, newcomer meetups, orgs</small></span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevStep(3)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextStep(3)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 4: Dining & Social ─────────────── -->
+      <div class="step" id="step-4">
+        <div class="step-header">
+          <span class="step-eyebrow">Food &amp; Social Life</span>
+          <h2 class="step-title">Let's talk about getting out of the house.</h2>
+          <p class="step-subtitle">We'll flag the best spots — including which ones know how to treat military families.</p>
+        </div>
+        <div class="step-body">
+          <div class="checkbox-grid wide">
+            <label class="checkbox-card">
+              <input type="checkbox" name="dining" value="family">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🍕</span>
+                <span class="checkbox-text">Family-Friendly Dining<small>Kids menus, high chairs, no judgment</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="dining" value="datenight">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🍷</span>
+                <span class="checkbox-text">Date Night Spots<small>When you can get a sitter</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="dining" value="military">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🎖️</span>
+                <span class="checkbox-text">Military Discounts<small>Local businesses that appreciate your service</small></span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevStep(4)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextStep(4)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 5: Extras ──────────────────────── -->
+      <div class="step" id="step-5">
+        <div class="step-header">
+          <span class="step-eyebrow">Almost Done</span>
+          <h2 class="step-title">Anything else you'd like on your radar?</h2>
+          <p class="step-subtitle">These are easy additions — just check what's useful.</p>
+        </div>
+        <div class="step-body">
+          <div class="checkbox-grid wide">
+            <label class="checkbox-card">
+              <input type="checkbox" name="extra" value="events">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">🎉</span>
+                <span class="checkbox-text">Upcoming Events &amp; Festivals<small>What's happening in Fallbrook this season</small></span>
+              </span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="extra" value="checklist">
+              <span class="checkbox-label">
+                <span class="checkbox-emoji">📋</span>
+                <span class="checkbox-text">New Resident Checklist<small>DMV, utilities, voter registration — the necessary stuff</small></span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevStep(5)">&larr; Back</button>
+          <button class="btn-primary btn-generate" onclick="generateGuide()">Build My Guide &rarr;</button>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- end #questionnaire-section -->
+
+
+  <!-- ═══════════════════════════════════════════════
+       GUIDE SECTION
+  ════════════════════════════════════════════════ -->
+  <div id="guide-section" class="hidden">
+
+    <header class="guide-nav">
+      <div class="guide-nav-inner">
+        <div class="logo logo-light">
+          <span class="logo-mark">⊕</span>
+          <span class="logo-text">Waypost</span>
+        </div>
+        <button class="btn-restart" onclick="restartQuiz()">&larr; Start Over</button>
+      </div>
+    </header>
+
+    <main class="guide-container" id="guide-content">
+      <!-- Filled by JS -->
+    </main>
+
+    <footer class="guide-footer">
+      <div class="guide-footer-inner">
+        <div class="footer-logo">
+          <span class="logo-mark">⊕</span>
+          <span class="logo-text">Waypost</span>
+        </div>
+        <p>Built for military families relocating to Fallbrook, California.</p>
+        <p class="footer-disclaimer">Information is updated seasonally. Always verify directly with schools, leagues, and businesses before acting on it.</p>
+      </div>
+    </footer>
+
+  </div><!-- end #guide-section -->
+
+  <script src="app.js"></script>
+</body>
+</html>
