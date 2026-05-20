@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waypost — Your Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="guide-page">
+
+  <!-- ── Sidebar (desktop left panel / mobile hidden) ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">
+        <span class="logo-mark">⊕</span>
+        <span class="logo-text">Waypost</span>
+      </div>
+      <div class="sidebar-town" id="sidebar-town">Fallbrook, CA</div>
+      <a href="questionnaire.html" class="sidebar-back-link">← Redo my answers</a>
+      <a href="index.html" class="sidebar-change-link">Change town</a>
+    </div>
+
+    <div class="sidebar-tabs" id="sidebar-tabs">
+      <button class="sidebar-tab active" data-tab="toc">Guide</button>
+      <button class="sidebar-tab" data-tab="saved">Saved</button>
+      <button class="sidebar-tab" data-tab="todo">To Do</button>
+      <button class="sidebar-tab" data-tab="contacts">Contacts</button>
+    </div>
+
+    <div class="sidebar-panels">
+      <!-- Guide TOC -->
+      <div class="sidebar-panel active" id="panel-toc">
+        <div class="panel-inner" id="toc-list">
+          <p class="panel-empty">Your guide sections will appear here.</p>
+        </div>
+      </div>
+
+      <!-- Saved -->
+      <div class="sidebar-panel" id="panel-saved">
+        <div class="panel-inner" id="saved-list">
+          <div class="panel-empty-state">
+            <span class="panel-empty-icon">🔖</span>
+            <p>Nothing saved yet.</p>
+            <p class="panel-empty-sub">Click <strong>Save for Later</strong> on any card in your guide.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- To Do -->
+      <div class="sidebar-panel" id="panel-todo">
+        <div class="panel-inner" id="todo-list">
+          <div class="panel-empty-state">
+            <span class="panel-empty-icon">✅</span>
+            <p>No action items yet.</p>
+            <p class="panel-empty-sub">Click <strong>Add to To Do</strong> on cards to generate checklists.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contacts -->
+      <div class="sidebar-panel" id="panel-contacts">
+        <div class="panel-inner">
+          <div class="contacts-toolbar">
+            <input type="text" class="contacts-search" id="contacts-search"
+              placeholder="Search contacts…" oninput="filterContacts(this.value)">
+            <button class="btn-add-contact" onclick="openAddContactModal()">+ Add</button>
+          </div>
+          <div id="contacts-list">
+            <div class="panel-empty-state">
+              <span class="panel-empty-icon">📇</span>
+              <p>No contacts yet.</p>
+              <p class="panel-empty-sub">Contacts are added automatically when you save or add a To Do from your guide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Guide Content ── -->
+  <main class="guide-main">
+
+    <!-- Mobile top bar -->
+    <div class="mobile-top-bar">
+      <div class="logo">
+        <span class="logo-mark">⊕</span>
+        <span class="logo-text">Waypost</span>
+      </div>
+      <div class="mobile-town-name" id="mobile-town-name">Fallbrook, CA</div>
+    </div>
+
+    <!-- Mobile panel overlay (shown when non-Guide tab active on mobile) -->
+    <div class="mobile-panel-overlay hidden" id="mobile-panel-overlay">
+      <!-- Content mirrored from sidebar panels by JS -->
+    </div>
+
+    <!-- Guide content -->
+    <div id="guide-content" class="guide-container">
+      <div class="guide-loading">Building your guide…</div>
+    </div>
+  </main>
+
+  <!-- ── Mobile Bottom Tab Bar ── -->
+  <nav class="bottom-tabs" id="bottom-tabs">
+    <button class="bottom-tab active" data-tab="toc">
+      <span class="btab-icon">🗺</span>
+      <span class="btab-label">Guide</span>
+    </button>
+    <button class="bottom-tab" data-tab="saved">
+      <span class="btab-icon">🔖</span>
+      <span class="btab-label">Saved</span>
+      <span class="btab-badge hidden" id="saved-badge"></span>
+    </button>
+    <button class="bottom-tab" data-tab="todo">
+      <span class="btab-icon">✅</span>
+      <span class="btab-label">To Do</span>
+      <span class="btab-badge hidden" id="todo-badge"></span>
+    </button>
+    <button class="bottom-tab" data-tab="contacts">
+      <span class="btab-icon">📇</span>
+      <span class="btab-label">Contacts</span>
+    </button>
+  </nav>
+
+  <!-- ── Save Modal ── -->
+  <div class="modal-overlay hidden" id="save-modal-overlay">
+    <div class="modal" id="save-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Save for Later</h3>
+        <button class="modal-close" onclick="closeSaveModal()">&times;</button>
+      </div>
+      <p class="modal-card-name" id="modal-card-name"></p>
+      <label class="modal-label">Add a note <span class="modal-label-hint">(optional)</span></label>
+      <textarea class="modal-textarea" id="save-note-input"
+        placeholder="e.g. Ask about the Friday night special, check if they have a patio…"></textarea>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeSaveModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmSave()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Add Contact Modal ── -->
+  <div class="modal-overlay hidden" id="contact-modal-overlay">
+    <div class="modal" id="contact-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Contact</h3>
+        <button class="modal-close" onclick="closeContactModal()">&times;</button>
+      </div>
+      <div class="modal-fields">
+        <div class="modal-field">
+          <label class="modal-label">Name</label>
+          <input type="text" class="modal-input" id="contact-name-input" placeholder="e.g. Fallbrook Little League">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Phone</label>
+          <input type="tel" class="modal-input" id="contact-phone-input" placeholder="(760) 555-0100">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Type</label>
+          <select class="modal-input" id="contact-type-input">
+            <option value="other">Other</option>
+            <option value="school">School</option>
+            <option value="sports">Sports</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="church">Church</option>
+            <option value="community">Community</option>
+            <option value="military">Military</option>
+            <option value="cafe">Café</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeContactModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmAddContact()">Add Contact</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="guide.js"></script>
+</body>
+</html>
