@@ -224,9 +224,8 @@ function buildTOC() {
     return;
   }
   tocEl.innerHTML = [...sections].map(s => {
-    const icon  = s.querySelector('.section-icon')  ? s.querySelector('.section-icon').textContent  : '';
     const title = s.querySelector('.section-title') ? s.querySelector('.section-title').textContent : s.id;
-    return `<a class="toc-item" href="#${s.id}" onclick="switchToGuideTab()">${icon} <span>${title}</span></a>`;
+    return `<a class="toc-item" href="#${s.id}" onclick="switchToGuideTab()"><span>${title}</span></a>`;
   }).join('');
 
   const observer = new IntersectionObserver(entries => {
@@ -251,14 +250,14 @@ function attachCardActions() {
     const saveBtn = document.createElement('button');
     saveBtn.className = 'card-btn btn-save';
     saveBtn.dataset.cardId = id;
-    saveBtn.innerHTML = '🔖 Save for Later';
+    saveBtn.innerHTML = '<i class="bi bi-bookmark"></i> Save for Later';
     saveBtn.addEventListener('click', () => openSaveModal(id, meta.name, meta.section));
     div.appendChild(saveBtn);
     if (meta.todos) {
       const todoBtn = document.createElement('button');
       todoBtn.className = 'card-btn btn-todo';
       todoBtn.dataset.cardId = id;
-      todoBtn.innerHTML = '✓ Add to To Do';
+      todoBtn.innerHTML = '<i class="bi bi-plus-square"></i> Add to To Do';
       todoBtn.addEventListener('click', () => addTodoGroup(id, meta.name, meta.section));
       div.appendChild(todoBtn);
     }
@@ -274,14 +273,14 @@ function restoreCardStates() {
 function updateCardSaveBtn(cardId, saved) {
   const btn = document.querySelector(`.btn-save[data-card-id="${cardId}"]`);
   if (!btn) return;
-  btn.textContent = saved ? '✓ Saved' : '🔖 Save for Later';
+  btn.innerHTML = saved ? '<i class="bi bi-bookmark-check"></i> Saved' : '<i class="bi bi-bookmark"></i> Save for Later';
   btn.classList.toggle('card-btn-active', saved);
 }
 
 function updateCardTodoBtn(cardId, added) {
   const btn = document.querySelector(`.btn-todo[data-card-id="${cardId}"]`);
   if (!btn) return;
-  btn.textContent = added ? '✓ In To Do' : '✓ Add to To Do';
+  btn.innerHTML = added ? '<i class="bi bi-check2-square"></i> In To Do' : '<i class="bi bi-plus-square"></i> Add to To Do';
   btn.classList.toggle('card-btn-active', added);
 }
 
@@ -447,7 +446,7 @@ function confirmAddContact() {
 function renderSavedPanel() {
   const el = document.getElementById('saved-list');
   if (!savedItems.length) {
-    el.innerHTML = `<div class="panel-empty-state"><span class="panel-empty-icon">🔖</span><p>Nothing saved yet.</p><p class="panel-empty-sub">Click <strong>Save for Later</strong> on any card in your guide.</p></div>`;
+    el.innerHTML = `<div class="panel-empty-state"><i class="bi bi-bookmark panel-empty-icon"></i><p>Nothing saved yet.</p><p class="panel-empty-sub">Click <strong>Save for Later</strong> on any card in your guide.</p></div>`;
     return;
   }
   el.innerHTML = savedItems.map(item => `
@@ -467,7 +466,7 @@ function renderSavedPanel() {
 function renderTodoPanel() {
   const el = document.getElementById('todo-list');
   if (!todoGroups.length) {
-    el.innerHTML = `<div class="panel-empty-state"><span class="panel-empty-icon">✅</span><p>No action items yet.</p><p class="panel-empty-sub">Click <strong>Add to To Do</strong> on cards in your guide.</p></div>`;
+    el.innerHTML = `<div class="panel-empty-state"><i class="bi bi-check2-square panel-empty-icon"></i><p>No action items yet.</p><p class="panel-empty-sub">Click <strong>Add to To Do</strong> on cards in your guide.</p></div>`;
     return;
   }
   el.innerHTML = todoGroups.map(group => {
@@ -721,16 +720,17 @@ function buildGuide(ans) {
   if (show.events)         html += eventsSection();
   if (show.checklist)      html += checklistSection();
   if (!Object.values(show).some(Boolean)) html += defaultSection();
+  // (section icon strings changed from emoji to Bootstrap Icon class names below)
 
   return html;
 }
 
 // ── Section helpers ────────────────────────────────
-function section(id, icon, title, intro, body) {
+function section(id, iconClass, title, intro, body) {
   return `
   <div class="guide-section" id="${id}">
     <div class="section-header">
-      <span class="section-icon">${icon}</span>
+      <i class="bi ${iconClass} section-icon"></i>
       <h2 class="section-title">${title}</h2>
     </div>
     ${intro ? `<p class="section-intro">${intro}</p>` : ''}
@@ -762,14 +762,14 @@ function schoolsSection(youngKids, schoolKids, kidAges) {
   if (high)           cards += card('fuhs',  'Fallbrook Union High School District',        '📍 Grades 9–12 · Public', 'Home to Fallbrook High School (Go Warriors). Strong athletics, arts programs, and IB/AP coursework. Enrollment office is on Ammunition Road. Bring transcripts from your previous school to speed things up.', [['9th – 12th Grade','olive']]);
   if (elem || mid)    cards += card('tk',    'Transitional Kindergarten (TK)', '📍 FUESD · Ages 4–5', 'Available for kids turning 5 between September 2 and February 2. Free, full school day, and a great bridge into kindergarten. Confirm your child\'s birthday window with the district.', [['Free · Full Day','sand']]);
   if (youngKids)      cards += card('preschool-community', 'Fallbrook Community Center Preschool', '📍 122 S. Main Ave · Ages 3–5', 'Popular community-run preschool. Waitlist fills quickly — reach out as soon as you have your move-in date confirmed. Part-day and full-day options depending on the semester.', [['Preschool · Community','sand']]);
-  return section('section-schools', '🏫', 'Schools &amp; Enrollment',
+  return section('section-schools', 'bi-mortarboard', 'Schools &amp; Enrollment',
     null,
     callout('<strong>Heads up on timing:</strong> Fallbrook runs two separate districts — one for TK–8, one for high school. Both require proof of residency to enroll. Plan on a 3–5 business day processing window, and call ahead if you\'re arriving mid-year.') +
     `<div class="cards-grid">${cards}</div>`);
 }
 
 function sportsSection() {
-  return section('section-sports', '⚽', 'Youth Sports Leagues',
+  return section('section-sports', 'bi-trophy', 'Youth Sports Leagues',
     'Fallbrook has a surprisingly active youth sports scene. Most leagues are seasonal and fill up fast — sign-up windows are noted so you don\'t miss the boat.',
     `<div class="cards-grid">
       ${card('ayso',         'AYSO Region 106 — Soccer',         '📍 Various fields · Ages 4–19',        'The biggest youth league in town. Fall registration opens in June; spring in November. AYSO never cuts players — every child gets equal time on the field regardless of skill level.', [['Fall &amp; Spring','olive'],['No-Cut Policy','sand']])}
@@ -780,7 +780,7 @@ function sportsSection() {
 }
 
 function churchSection() {
-  return section('section-church', '⛪', 'Faith Community',
+  return section('section-church', 'bi-building', 'Faith Community',
     'Fallbrook has an unusually strong faith community for its size. Several congregations have active military family programs and intentional newcomer outreach.',
     `<div class="cards-grid">
       ${card('fumc',       'Fallbrook United Methodist Church',         '📍 W. Alvarado St · Est. 1888',     'One of Fallbrook\'s oldest churches with deep community roots. Active in local food ministries and hosts a beloved annual Thanksgiving community dinner open to all.', [['Methodist','olive'],['Community Focused','sand']])}
@@ -791,7 +791,7 @@ function churchSection() {
 }
 
 function neighborhoodsSection() {
-  return section('section-neighborhoods', '🏡', 'Neighborhoods &amp; Housing',
+  return section('section-neighborhoods', 'bi-house', 'Neighborhoods &amp; Housing',
     null,
     callout('<strong>Pendleton commute note:</strong> The main gate is on I-5 near Oceanside. From most parts of Fallbrook, budget 20–35 minutes depending on which gate your service member uses. Early-morning gate backup can add time.') +
     `<div class="cards-grid single-col">
@@ -802,7 +802,7 @@ function neighborhoodsSection() {
 }
 
 function coworkingSection() {
-  return section('section-coworking', '💻', 'Remote Work &amp; Co-working Spots',
+  return section('section-coworking', 'bi-laptop', 'Remote Work &amp; Co-working Spots',
     'Fallbrook doesn\'t have a dedicated co-working space yet, but these spots have solid WiFi, a welcoming vibe, and enough regulars that you\'ll feel at home fast.',
     `<div class="cards-grid">
       ${card('fallbrook-coffee', 'Fallbrook Coffee Co.',       '📍 Main Ave · 7am–4pm daily',   'The de facto remote-work spot for locals. Reliable WiFi, good outlets, and a community board full of town notices. Gets busy after 9am — grab a table early.', [['Most Popular','olive']])}
@@ -813,7 +813,7 @@ function coworkingSection() {
 }
 
 function groupsSection() {
-  return section('section-groups', '👋', 'Local Groups &amp; Community',
+  return section('section-groups', 'bi-people', 'Local Groups &amp; Community',
     'The fastest way to feel at home is to find your people. These groups are actively welcoming to new military families.',
     `<div class="cards-grid single-col">
       ${card('mccs',            'MCCS Spouse Club — Camp Pendleton',       '📍 On-base · Marine Corps Community Services', 'The official spouse network through MCCS. Hosts newcomer coffees, playgroups, and resource fairs. If you\'re brand new, this is the first call to make — they have a New to the Area packet specifically for Fallbrook families.', [['Military Resource · First Stop','blue']])}
@@ -824,7 +824,7 @@ function groupsSection() {
 }
 
 function familyDiningSection() {
-  return section('section-family-dining', '🍕', 'Family-Friendly Restaurants',
+  return section('section-family-dining', 'bi-cup-hot', 'Family-Friendly Restaurants',
     'These spots are genuinely welcoming to kids — not just tolerant of them.',
     `<div class="cards-grid">
       ${card('la-casita',   'La Casita Mexican Restaurant', '📍 S. Main Ave · Fallbrook staple',             'A Fallbrook institution. Massive portions, friendly staff, and booth seating that works for families with little ones. Military discount available.', [['Local Favorite','terra'],['Military Discount','blue']])}
@@ -835,7 +835,7 @@ function familyDiningSection() {
 }
 
 function dateNightSection() {
-  return section('section-date-night', '🍷', 'Date Night Spots',
+  return section('section-date-night', 'bi-stars', 'Date Night Spots',
     'Fallbrook is wine country-adjacent and punches above its weight for a small town. These are the spots worth saving a sitter for.',
     `<div class="cards-grid">
       ${card('casual-olive',        'The Casual Olive',           '📍 Main Ave · Wine bar &amp; small plates', 'The best date-night spot in town. Excellent wine list skewed toward Southern California labels, thoughtful small plates, and a warm, unhurried atmosphere. Reservations recommended on weekends.', [['Wine Bar','terra'],['Reservations Recommended','olive']])}
@@ -846,24 +846,24 @@ function dateNightSection() {
 }
 
 function militarySection() {
-  return section('section-military', '🎖️', 'Military Discounts in Fallbrook',
+  return section('section-military', 'bi-shield', 'Military Discounts in Fallbrook',
     'Fallbrook sits right next to Camp Pendleton, and the community knows it. Always bring your ID.',
     `<div class="discount-list">
-      ${discount('🍽️','La Casita Mexican Restaurant',  '10% off for active duty and veterans. Mention it when you order.')}
-      ${discount('💪','Fallbrook YMCA',                 'Reduced membership rates for active-duty military families. Ask for the military rate at the front desk — it\'s not always posted.')}
-      ${discount('✂️','Great Clips — Fallbrook',        'Military discount available year-round for active duty and veterans. Walk-ins welcome.')}
-      ${discount('🔨','Ace Hardware — Fallbrook',       '10% military discount on most items. Heavily used during PCS move-in season.')}
-      ${discount('🐾','Fallbrook Veterinary Hospital',  '10% off services for active-duty military pet owners. Mention your service at check-in.')}
-      ${discount('🎬','MCCS Movie Theater — On Base',   'Significantly cheaper than off-base options. Open to all with base access. Check the MCCS website for current schedule.')}
+      ${discount('bi-cup-hot',       'La Casita Mexican Restaurant',  '10% off for active duty and veterans. Mention it when you order.')}
+      ${discount('bi-heart-pulse',   'Fallbrook YMCA',                 'Reduced membership rates for active-duty military families. Ask for the military rate at the front desk — it\'s not always posted.')}
+      ${discount('bi-scissors',      'Great Clips — Fallbrook',        'Military discount available year-round for active duty and veterans. Walk-ins welcome.')}
+      ${discount('bi-tools',         'Ace Hardware — Fallbrook',       '10% military discount on most items. Heavily used during PCS move-in season.')}
+      ${discount('bi-heart',         'Fallbrook Veterinary Hospital',  '10% off services for active-duty military pet owners. Mention your service at check-in.')}
+      ${discount('bi-film',          'MCCS Movie Theater — On Base',   'Significantly cheaper than off-base options. Open to all with base access. Check the MCCS website for current schedule.')}
     </div>`);
 }
 
-function discount(icon, name, detail) {
-  return `<div class="discount-item"><span class="discount-emoji">${icon}</span><div><div class="discount-name">${name}</div><div class="discount-detail">${detail}</div></div></div>`;
+function discount(iconClass, name, detail) {
+  return `<div class="discount-item"><i class="bi ${iconClass} discount-icon"></i><div><div class="discount-name">${name}</div><div class="discount-detail">${detail}</div></div></div>`;
 }
 
 function eventsSection() {
-  return section('section-events', '🎉', 'Upcoming Events &amp; Festivals',
+  return section('section-events', 'bi-calendar-event', 'Upcoming Events &amp; Festivals',
     'Fallbrook has an active events calendar for a town its size. These are the recurring staples worth putting on your radar.',
     `<div class="events-list">
       ${event('APR','26','Fallbrook Avocado Festival','The town\'s biggest annual event. Main Ave closes for the day — live music, vendors, avocado food competitions, and a parade. Arrive early; parking fills fast.')}
@@ -887,13 +887,13 @@ function checklistSection() {
     ['Update Mailing Address',        'USPS change of address, plus financial accounts, subscriptions, and your unit\'s admin office for service records.'],
     ['Connect with Your FRG',         'Plug into your unit\'s Family Readiness Group early. They carry the most current, ground-level local resources for military families in your specific situation.']
   ];
-  return section('section-checklist', '📋', 'New Resident Checklist',
+  return section('section-checklist', 'bi-list-check', 'New Resident Checklist',
     'The unglamorous stuff — but knocking this out in your first two weeks makes everything else feel more settled.',
-    `<ul class="checklist">${items.map(([t, d]) => `<li><span class="checklist-box">☐</span><div><strong>${t}</strong><br>${d}</div></li>`).join('')}</ul>`);
+    `<ul class="checklist">${items.map(([t, d]) => `<li><i class="bi bi-square checklist-box"></i><div><strong>${t}</strong><br>${d}</div></li>`).join('')}</ul>`);
 }
 
 function defaultSection() {
-  return section('section-default', '🌿', 'Getting Started in Fallbrook',
+  return section('section-default', 'bi-geo-alt', 'Getting Started in Fallbrook',
     'A few things every newcomer should know, regardless of what brought you here.',
     `<div class="cards-grid single-col">
       <div class="card"><div class="card-name">Main Avenue is your town center</div><div class="card-body">Most local restaurants, shops, and the weekly farmer\'s market are along or just off Main Ave. It\'s walkable, friendly, and the best place to start getting a feel for Fallbrook.</div></div>

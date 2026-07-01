@@ -65,21 +65,21 @@
           <p class="doc-panel-intro">Generate career documents from your Skills Passport. Each opens in a window you can copy and paste into a Word doc.</p>
           <div class="doc-triggers">
             <button class="doc-trigger" onclick="openDocModal('resume')">
-              <span class="doc-trigger-icon">📄</span>
+              <i class="bi bi-file-text doc-trigger-icon"></i>
               <div>
                 <div class="doc-trigger-label">Resume</div>
                 <div class="doc-trigger-sub">Formatted from your work history and skills</div>
               </div>
             </button>
             <button class="doc-trigger" onclick="openDocModal('cover-letter')">
-              <span class="doc-trigger-icon">✉️</span>
+              <i class="bi bi-envelope doc-trigger-icon"></i>
               <div>
                 <div class="doc-trigger-label">Cover Letter</div>
                 <div class="doc-trigger-sub">Template with your translated gap language</div>
               </div>
             </button>
             <button class="doc-trigger" onclick="openDocModal('interview-prep')">
-              <span class="doc-trigger-icon">💬</span>
+              <i class="bi bi-chat-square-text doc-trigger-icon"></i>
               <div>
                 <div class="doc-trigger-label">Interview Prep</div>
                 <div class="doc-trigger-sub">5 common questions answered in your voice</div>
@@ -100,7 +100,7 @@
       <div class="sidebar-panel" id="panel-saved">
         <div class="panel-inner" id="saved-list">
           <div class="panel-empty-state">
-            <span class="panel-empty-icon">🔖</span>
+            <i class="bi bi-bookmark panel-empty-icon"></i>
             <p>Nothing saved yet.</p>
             <p class="panel-empty-sub">Click <strong>Save</strong> on any passport section.</p>
           </div>
@@ -127,16 +127,16 @@
   <!-- ── Mobile Bottom Tab Bar ──────────────────────── -->
   <nav class="bottom-tabs" id="bottom-tabs">
     <button class="bottom-tab active" data-tab="toc">
-      <span class="btab-icon">👤</span><span class="btab-label">Passport</span>
+      <i class="bi bi-person-badge btab-icon"></i><span class="btab-label">Passport</span>
     </button>
     <button class="bottom-tab" data-tab="documents">
-      <span class="btab-icon">📄</span><span class="btab-label">Documents</span>
+      <i class="bi bi-file-earmark-text btab-icon"></i><span class="btab-label">Documents</span>
     </button>
     <button class="bottom-tab" data-tab="jobs">
-      <span class="btab-icon">🔍</span><span class="btab-label">Jobs</span>
+      <i class="bi bi-search btab-icon"></i><span class="btab-label">Jobs</span>
     </button>
     <button class="bottom-tab" data-tab="saved">
-      <span class="btab-icon">🔖</span><span class="btab-label">Saved</span>
+      <i class="bi bi-bookmark btab-icon"></i><span class="btab-label">Saved</span>
       <span class="btab-badge hidden" id="saved-badge"></span>
     </button>
   </nav>

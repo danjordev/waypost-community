@@ -7,31 +7,31 @@
 
 // ── Skill Categories ───────────────────────────────
 const SKILL_CATEGORIES = [
-  { id: 'administrative',   label: 'Administrative & Office Support', icon: '🗂️' },
-  { id: 'healthcare',       label: 'Healthcare & Medical',            icon: '🏥' },
-  { id: 'customer-service', label: 'Customer Service & Retail',       icon: '🛍️' },
-  { id: 'education',        label: 'Education & Childcare',           icon: '📚' },
-  { id: 'finance',          label: 'Finance & Accounting',            icon: '💰' },
-  { id: 'technology',       label: 'Information Technology',          icon: '💻' },
-  { id: 'marketing',        label: 'Marketing & Communications',      icon: '📣' },
-  { id: 'management',       label: 'Management & Leadership',         icon: '📋' },
-  { id: 'sales',            label: 'Sales & Business Development',    icon: '🤝' },
-  { id: 'logistics',        label: 'Logistics & Supply Chain',        icon: '📦' },
-  { id: 'food-service',     label: 'Food Service & Hospitality',      icon: '🍽️' },
-  { id: 'creative',         label: 'Creative & Design',               icon: '🎨' },
-  { id: 'legal',            label: 'Legal & Compliance',              icon: '⚖️' },
-  { id: 'nonprofit',        label: 'Nonprofit & Social Services',     icon: '🌿' }
+  { id: 'administrative',   label: 'Administrative & Office Support', iconClass: 'bi-folder' },
+  { id: 'healthcare',       label: 'Healthcare & Medical',            iconClass: 'bi-heart-pulse' },
+  { id: 'customer-service', label: 'Customer Service & Retail',       iconClass: 'bi-headset' },
+  { id: 'education',        label: 'Education & Childcare',           iconClass: 'bi-book' },
+  { id: 'finance',          label: 'Finance & Accounting',            iconClass: 'bi-currency-dollar' },
+  { id: 'technology',       label: 'Information Technology',          iconClass: 'bi-laptop' },
+  { id: 'marketing',        label: 'Marketing & Communications',      iconClass: 'bi-megaphone' },
+  { id: 'management',       label: 'Management & Leadership',         iconClass: 'bi-kanban' },
+  { id: 'sales',            label: 'Sales & Business Development',    iconClass: 'bi-graph-up-arrow' },
+  { id: 'logistics',        label: 'Logistics & Supply Chain',        iconClass: 'bi-box-seam' },
+  { id: 'food-service',     label: 'Food Service & Hospitality',      iconClass: 'bi-cup-straw' },
+  { id: 'creative',         label: 'Creative & Design',               iconClass: 'bi-palette' },
+  { id: 'legal',            label: 'Legal & Compliance',              iconClass: 'bi-scale' },
+  { id: 'nonprofit',        label: 'Nonprofit & Social Services',     iconClass: 'bi-heart' }
 ];
 
 // ── Gap Types ──────────────────────────────────────
 const GAP_TYPES = [
-  { id: 'pcs-move',            label: 'PCS / Military Relocation',              icon: '🎖️' },
-  { id: 'caregiving-children', label: 'Caregiving — Children',                  icon: '👶' },
-  { id: 'caregiving-family',   label: 'Caregiving — Family Member',             icon: '❤️' },
-  { id: 'deployment-support',  label: 'Supporting Spouse During Deployment',    icon: '🏠' },
-  { id: 'remote-location',     label: 'Remote Duty Station / No Local Jobs',    icon: '📍' },
-  { id: 'credential-transfer', label: 'License or Credential Transfer',         icon: '📜' },
-  { id: 'other',               label: 'Other',                                  icon: '◎'  }
+  { id: 'pcs-move',            label: 'PCS / Military Relocation',              iconClass: 'bi-compass' },
+  { id: 'caregiving-children', label: 'Caregiving — Children',                  iconClass: 'bi-person-heart' },
+  { id: 'caregiving-family',   label: 'Caregiving — Family Member',             iconClass: 'bi-heart' },
+  { id: 'deployment-support',  label: 'Supporting Spouse During Deployment',    iconClass: 'bi-house' },
+  { id: 'remote-location',     label: 'Remote Duty Station / No Local Jobs',    iconClass: 'bi-geo-alt' },
+  { id: 'credential-transfer', label: 'License or Credential Transfer',         iconClass: 'bi-patch-check' },
+  { id: 'other',               label: 'Other',                                  iconClass: 'bi-three-dots' }
 ];
 
 // ── Disruption Translations ────────────────────────

@@ -74,7 +74,7 @@ function populateSkillCategoryCheckboxes() {
     <label class="checkbox-card">
       <input type="checkbox" name="skillCategory" value="${cat.id}">
       <span class="checkbox-label">
-        <span class="checkbox-emoji">${cat.icon}</span>
+        <i class="bi ${cat.iconClass} checkbox-icon"></i>
         <span class="checkbox-text">${cat.label}</span>
       </span>
     </label>`).join('');
@@ -87,7 +87,7 @@ function populateVolunteerCheckboxes() {
     <label class="checkbox-card">
       <input type="checkbox" name="volunteerRole" value="${id}">
       <span class="checkbox-label">
-        <span class="checkbox-emoji">🤝</span>
+        <i class="bi bi-people checkbox-icon"></i>
         <span class="checkbox-text">${v.label}</span>
       </span>
     </label>`).join('');
@@ -96,7 +96,7 @@ function populateVolunteerCheckboxes() {
 // ── Populate Gap Type Dropdowns ────────────────────
 function populateGapTypeDropdowns() {
   const selects = document.querySelectorAll('.gap-type');
-  const options = GAP_TYPES.map(t => `<option value="${t.id}">${t.icon} ${t.label}</option>`).join('');
+  const options = GAP_TYPES.map(t => `<option value="${t.id}">${t.label}</option>`).join('');
   selects.forEach(sel => sel.innerHTML = `<option value="">Select…</option>` + options);
 }
 
@@ -186,7 +186,7 @@ function addGapEntry() {
   const div = document.createElement('div');
   div.className = 'gap-entry';
   div.id = `gap-entry-${idx}`;
-  const options = GAP_TYPES.map(t => `<option value="${t.id}">${t.icon} ${t.label}</option>`).join('');
+  const options = GAP_TYPES.map(t => `<option value="${t.id}">${t.label}</option>`).join('');
   div.innerHTML = `
     <div class="work-entry-header">
       <span class="work-entry-label">Gap ${idx + 1}</span>

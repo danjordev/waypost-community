@@ -161,7 +161,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
 .checkbox-label { display: flex; align-items: center; gap: 0.9rem; padding: 1rem 1.1rem; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--white); cursor: pointer; transition: border-color 0.18s, background 0.18s; user-select: none; }
 .checkbox-label:hover { border-color: var(--olive-light); }
 .checkbox-card input:checked + .checkbox-label { border-color: var(--olive); background: var(--sand-pale); }
-.checkbox-emoji { font-size: 1.35rem; flex-shrink: 0; line-height: 1; }
+/* .checkbox-emoji renamed .checkbox-icon — now uses Bootstrap Icons */
+.checkbox-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; color: var(--text-light); }
+.checkbox-card input:checked + .checkbox-label .checkbox-icon { color: var(--olive); }
 .checkbox-text { display: flex; flex-direction: column; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
 .checkbox-card input:checked + .checkbox-label .checkbox-text { color: var(--olive); }
 .checkbox-text small { font-size: 0.78rem; font-weight: 400; color: var(--text-light); margin-top: 0.15rem; }
@@ -979,3 +981,31 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
   .pillar-home-title { font-size: 1.9rem; }
   .pillar-home-main { padding: 2rem 1.25rem 1.5rem; }
 }
+
+
+/* ════════════════════════════════════════════════
+   BOOTSTRAP ICONS — site-wide sizing & colour rules
+════════════════════════════════════════════════ */
+
+/* Section headers in guide + passport */
+.section-icon { font-size: 1.2rem; flex-shrink: 0; color: var(--olive); line-height: 1; }
+
+/* Discount list icons */
+.discount-icon { font-size: 1.3rem; flex-shrink: 0; color: var(--text-mid); margin-top: 0.05rem; }
+
+/* Panel empty-state icons */
+.panel-empty-icon { font-size: 1.75rem; color: var(--text-light); display: block; margin-bottom: 0.35rem; }
+
+/* Checklist tick boxes */
+.checklist-box { font-size: 0.95rem; color: var(--olive-light); flex-shrink: 0; margin-top: 0.1rem; }
+
+/* Pillar home card icons */
+.pillar-home-card--community .pillar-home-icon { color: var(--olive); }
+.pillar-home-card--career    .pillar-home-icon { color: var(--terracotta); }
+
+/* Career feature card icons */
+.career-feature-icon { font-size: 1.4rem; display: block; margin-bottom: 0.6rem; color: var(--olive); }
+.career-feature-icon.career-icon-terra { color: var(--terracotta); }
+
+/* Document trigger icons in passport sidebar */
+.doc-trigger-icon { font-size: 1.2rem; flex-shrink: 0; color: var(--olive); }

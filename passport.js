@@ -75,9 +75,8 @@ function buildPassportTOC() {
   const tocEl    = document.getElementById('toc-list');
   if (!sections.length) { tocEl.innerHTML = '<p class="panel-empty">Sections will appear here.</p>'; return; }
   tocEl.innerHTML = [...sections].map(s => {
-    const icon  = s.querySelector('.section-icon')  ? s.querySelector('.section-icon').textContent  : '◎';
-    const title = s.querySelector('.section-title, h1') ? (s.querySelector('.section-title') || s.querySelector('h1')).textContent.replace(/Welcome.+/,'Profile') : s.id;
-    return `<a class="toc-item" href="#${s.id}" onclick="switchToPassportTab()">${icon} <span>${title}</span></a>`;
+    const title = s.querySelector('.section-title') ? s.querySelector('.section-title').textContent : (s.querySelector('h1') ? 'Profile' : s.id);
+    return `<a class="toc-item" href="#${s.id}" onclick="switchToPassportTab()"><span>${title}</span></a>`;
   }).join('');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -94,7 +93,7 @@ function renderJobsPanel() {
   const cats = passport.skillCategories || [];
   const matched = matchJobs(cats);
   if (!matched.length) {
-    el.innerHTML = `<div class="panel-empty-state"><span class="panel-empty-icon">🔍</span><p>No matches yet.</p><p class="panel-empty-sub">Add skill categories in your questionnaire to see matched local jobs.</p></div>`;
+    el.innerHTML = `<div class="panel-empty-state"><i class="bi bi-search panel-empty-icon"></i><p>No matches yet.</p><p class="panel-empty-sub">Add skill categories in your questionnaire to see matched local jobs.</p></div>`;
     return;
   }
   el.innerHTML = matched.map(job => `
@@ -117,7 +116,7 @@ function renderJobsPanel() {
 function renderPassportSavedPanel() {
   const el = document.getElementById('saved-list');
   if (!passportSaved.length) {
-    el.innerHTML = `<div class="panel-empty-state"><span class="panel-empty-icon">🔖</span><p>Nothing saved yet.</p><p class="panel-empty-sub">Click <strong>Save</strong> on any section of your passport.</p></div>`;
+    el.innerHTML = `<div class="panel-empty-state"><i class="bi bi-bookmark panel-empty-icon"></i><p>Nothing saved yet.</p><p class="panel-empty-sub">Click <strong>Save</strong> on any section of your passport.</p></div>`;
     return;
   }
   el.innerHTML = passportSaved.map(item => `
@@ -273,7 +272,7 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.add('hidden'), 2500);
 }
 function saveBtn(sectionId, sectionName) {
-  return `<button class="section-save-btn" onclick="openPassportSaveModal('${sectionId}','${sectionName.replace(/'/g,"\\'")}')">🔖 Save</button>`;
+  return `<button class="section-save-btn" onclick="openPassportSaveModal('${sectionId}','${sectionName.replace(/'/g,"\\'")}')"><i class="bi bi-bookmark"></i> Save</button>`;
 }
 
 
@@ -321,7 +320,7 @@ function summarySection(p, name, categories, gaps, work) {
   return `
   <div class="passport-section guide-section" id="section-summary">
     <div class="section-header">
-      <span class="section-icon">👤</span>
+      <i class="bi bi-person-badge section-icon"></i>
       <h2 class="section-title">Professional Summary</h2>
       ${saveBtn('section-summary','Professional Summary')}
     </div>
@@ -376,7 +375,7 @@ function workHistorySection(work) {
   return `
   <div class="passport-section guide-section" id="section-work">
     <div class="section-header">
-      <span class="section-icon">💼</span>
+      <i class="bi bi-briefcase section-icon"></i>
       <h2 class="section-title">Work History</h2>
       ${saveBtn('section-work','Work History')}
     </div>
@@ -392,7 +391,7 @@ function employmentJourneySection(gaps) {
     return `
     <div class="gap-entry-card">
       <div class="gap-entry-header">
-        <span class="gap-entry-icon">${gapType?.icon || '◎'}</span>
+        <i class="bi ${gapType?.iconClass || 'bi-three-dots'} gap-entry-icon"></i>
         <div>
           <div class="gap-entry-type">${esc(gapType?.label || 'Employment Gap')}</div>
           ${g.duration ? `<div class="gap-entry-duration">${esc(g.duration.replace('mo',' months').replace('yr',' year').replace('+',' +'))}</div>` : ''}
@@ -407,7 +406,7 @@ function employmentJourneySection(gaps) {
   return `
   <div class="passport-section guide-section" id="section-journey">
     <div class="section-header">
-      <span class="section-icon">🗺️</span>
+      <i class="bi bi-map section-icon"></i>
       <h2 class="section-title">Employment Journey</h2>
       ${saveBtn('section-journey','Employment Journey')}
     </div>
@@ -432,7 +431,7 @@ function skillsSection(categories, volunteers) {
   return `
   <div class="passport-section guide-section" id="section-skills">
     <div class="section-header">
-      <span class="section-icon">⭐</span>
+      <i class="bi bi-star section-icon"></i>
       <h2 class="section-title">Skills &amp; Strengths</h2>
       ${saveBtn('section-skills','Skills & Strengths')}
     </div>
@@ -448,7 +447,7 @@ function educationSection(edu) {
   return `
   <div class="passport-section guide-section" id="section-education">
     <div class="section-header">
-      <span class="section-icon">🎓</span>
+      <i class="bi bi-mortarboard section-icon"></i>
       <h2 class="section-title">Education</h2>
     </div>
     <div class="card">
@@ -473,7 +472,7 @@ function volunteerSection(roles) {
   return `
   <div class="passport-section guide-section" id="section-volunteer">
     <div class="section-header">
-      <span class="section-icon">🤝</span>
+      <i class="bi bi-people section-icon"></i>
       <h2 class="section-title">Community &amp; Volunteer Leadership</h2>
       ${saveBtn('section-volunteer','Community & Volunteer Leadership')}
     </div>

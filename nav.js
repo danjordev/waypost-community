@@ -1,16 +1,18 @@
 /* ══════════════════════════════════════════════════
    WAYPOST — nav.js
-   Injects the persistent global nav bar into every
-   page. Each page sets data-pillar="community" or
-   data-pillar="career" on <body> to highlight the
-   active section. Home page leaves it unset.
-
-   If the user already has a generated guide or
-   passport in localStorage, the nav links return
-   them directly to that page rather than the hub.
+   Injects the persistent global nav bar and loads
+   Bootstrap Icons (the icon font used site-wide).
+   Each page sets data-pillar="community"|"career"
+   on <body> to highlight the active section.
 ══════════════════════════════════════════════════ */
 
 (function () {
+  // Load Bootstrap Icons once, for every page
+  const iconCSS = document.createElement('link');
+  iconCSS.rel  = 'stylesheet';
+  iconCSS.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css';
+  document.head.appendChild(iconCSS);
+
   const active = document.body.dataset.pillar || '';
 
   // Return users to their in-progress guide or passport if one exists,
@@ -28,10 +30,10 @@
     </a>
     <div class="gnav-links">
       <a href="${communityHref}" class="gnav-link ${active === 'community' ? 'gnav-active' : ''}">
-        🏘 Community
+        <i class="bi bi-compass"></i> Community
       </a>
       <a href="${careerHref}" class="gnav-link ${active === 'career' ? 'gnav-active' : ''}">
-        💼 Career
+        <i class="bi bi-briefcase"></i> Career
       </a>
     </div>
   `;
