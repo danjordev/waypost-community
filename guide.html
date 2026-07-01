@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="guide-page">
+<body class="guide-page" data-pillar="community">
 
   <!-- ── Sidebar (desktop left panel / mobile hidden) ── -->
   <aside class="sidebar" id="sidebar">
@@ -20,7 +20,7 @@
       </div>
       <div class="sidebar-town" id="sidebar-town">Fallbrook, CA</div>
       <a href="questionnaire.html" class="sidebar-back-link">← Redo my answers</a>
-      <a href="index.html" class="sidebar-change-link">Change town</a>
+      <a href="community.html" class="sidebar-change-link">Change town</a>
 
       <!-- PDF download (no account needed) -->
       <button class="btn-pdf" onclick="downloadPDF()">⬇ Download as PDF</button>
@@ -245,6 +245,7 @@
   <!-- html2pdf (client-side PDF generation, no server needed) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+  <script src="nav.js"></script>
   <script src="firebase.js"></script>
   <script src="guide.js"></script>
 </body>

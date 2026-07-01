@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waypost — Community Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="home-page" data-pillar="community">
+
+  <main class="home-main">
+    <div class="home-hero">
+      <p class="home-eyebrow">Community Guide</p>
+      <h1 class="home-title">Where are you headed?</h1>
+      <p class="home-subtitle">Select your new town and we'll build you a personalized guide — schools, sports, dining, and everything in between.</p>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          id="town-search"
+          class="search-input"
+          placeholder="Search by city, base, or state…"
+          oninput="renderTownCards(this.value)"
+          autocomplete="off"
+        >
+      </div>
+    </div>
+
+    <div class="town-grid" id="town-grid">
+      <!-- Populated by towns.js -->
+    </div>
+  </main>
+
+  <footer class="home-footer">
+    <div class="logo logo-muted" style="display:inline-flex;margin-bottom:.5rem;">
+      <span class="logo-mark">⊕</span>
+      <span class="logo-text">Waypost</span>
+    </div>
+    <p>A free resource for military families. More towns added regularly.</p>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script src="towns.js"></script>
+  <script>renderTownCards();</script>
+</body>
+</html>

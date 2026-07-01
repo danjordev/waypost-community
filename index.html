@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waypost — Find Your Town</title>
+  <title>Waypost — For Military Families on the Move</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,71 +11,58 @@
 </head>
 <body class="home-page">
 
-  <header class="home-header">
-    <div class="home-header-inner">
-      <div class="logo">
-        <span class="logo-mark">⊕</span>
-        <span class="logo-text">Waypost</span>
-      </div>
-      <p class="home-header-tag">Free welcome guides for military families</p>
-    </div>
-  </header>
+  <main class="pillar-home-main">
 
-  <main class="home-main">
-    <div class="home-hero">
+    <div class="pillar-home-hero">
       <p class="home-eyebrow">You got orders. We've got you.</p>
-      <h1 class="home-title">Where do you need help?</h1>
-      <p class="home-subtitle">Waypost has two free tools for military families on the move.</p>
+      <h1 class="pillar-home-title">What do you need today?</h1>
+      <p class="pillar-home-sub">Waypost has two free tools for military families making a PCS move.</p>
     </div>
 
-    <!-- Two-pillar nav -->
-    <div class="pillar-nav">
-      <div class="pillar-nav-card pillar-nav-active">
-        <span class="pillar-nav-icon">🏘</span>
-        <div class="pillar-nav-text">
-          <div class="pillar-nav-label">Community Guide</div>
-          <div class="pillar-nav-desc">Schools, sports, dining, neighborhoods, and more — for your new town</div>
+    <div class="pillar-home-grid">
+
+      <a href="community.html" class="pillar-home-card pillar-home-card--community">
+        <div class="pillar-home-card-accent"></div>
+        <div class="pillar-home-card-body">
+          <span class="pillar-home-icon">🏘</span>
+          <h2 class="pillar-home-label">Community Guide</h2>
+          <p class="pillar-home-desc">A personalized guide to your new town — schools, sports leagues, restaurants, military discounts, neighborhoods, local groups, and upcoming events.</p>
+          <ul class="pillar-home-features">
+            <li>Tailored to your family's answers</li>
+            <li>Save cards, build a To Do list, store contacts</li>
+            <li>Currently covering Fallbrook, CA</li>
+          </ul>
+          <span class="pillar-home-cta">Find my town →</span>
         </div>
-        <span class="pillar-nav-arrow">↓ Below</span>
-      </div>
-      <a href="career.html" class="pillar-nav-card pillar-nav-link">
-        <span class="pillar-nav-icon">💼</span>
-        <div class="pillar-nav-text">
-          <div class="pillar-nav-label">Skills Passport</div>
-          <div class="pillar-nav-desc">Resume, cover letter, interview prep, and matched local jobs</div>
-        </div>
-        <span class="pillar-nav-arrow">→</span>
       </a>
+
+      <a href="career.html" class="pillar-home-card pillar-home-card--career">
+        <div class="pillar-home-card-accent"></div>
+        <div class="pillar-home-card-body">
+          <span class="pillar-home-icon">💼</span>
+          <h2 class="pillar-home-label">Skills Passport</h2>
+          <p class="pillar-home-desc">Translate your military spouse experience — the moves, the gaps, the FRG leadership, the solo deployments — into professional language that gets you hired.</p>
+          <ul class="pillar-home-features">
+            <li>Resume, cover letter &amp; interview prep</li>
+            <li>Employment gaps reframed with confidence</li>
+            <li>Matched local job listings</li>
+          </ul>
+          <span class="pillar-home-cta">Build my passport →</span>
+        </div>
+      </a>
+
     </div>
 
-    <div class="search-wrap">
-      <div class="search-box">
-        <span class="search-icon">⌕</span>
-        <input
-          type="text"
-          id="town-search"
-          class="search-input"
-          placeholder="Search by city, base, or state…"
-          oninput="renderTownCards(this.value)"
-          autocomplete="off"
-        >
-      </div>
-    </div>
-
-    <div class="town-grid" id="town-grid">
-      <!-- Populated by towns.js -->
-    </div>
   </main>
 
-  <footer class="home-footer">
-    <div class="logo logo-muted">
+  <footer class="home-footer" style="margin-top:auto;">
+    <div class="logo logo-muted" style="display:inline-flex;margin-bottom:.5rem;">
       <span class="logo-mark">⊕</span>
       <span class="logo-text">Waypost</span>
     </div>
-    <p>A free resource for military families. More towns added regularly.</p>
+    <p>Free always. Built for military families.</p>
   </footer>
 
-  <script src="towns.js"></script>
-  <script>renderTownCards();</script>
+  <script src="nav.js"></script>
 </body>
 </html>

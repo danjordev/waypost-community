@@ -23,6 +23,7 @@
   --text-mid:       #5C5244;
   --text-light:     #9A8F84;
   --border:         #E8DECE;
+  --nav-h:          52px;
   --sidebar-w:      268px;
   --bottom-tab-h:   58px;
   --shadow-xs:      0 1px 3px rgba(35,73,112,0.06);
@@ -35,7 +36,7 @@
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; padding-top: var(--nav-h); }
 
 .hidden { display: none !important; }
 
@@ -180,7 +181,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
   width: var(--sidebar-w);
   flex-shrink: 0;
   position: fixed;
-  left: 0; top: 0; bottom: 0;
+  left: 0; top: var(--nav-h); bottom: 0;
   background: var(--white);
   border-right: 1.5px solid var(--border);
   display: flex;
@@ -392,7 +393,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
   /* Sidebar becomes full-screen overlay (hidden by default) */
   .sidebar {
     width: 100%;
-    top: 0;
+    top: var(--nav-h);
     bottom: var(--bottom-tab-h);
     transform: translateX(-100%);
     transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
@@ -412,7 +413,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
     background: var(--white);
     border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 0;
+    top: var(--nav-h);
     z-index: 10;
   }
   .mobile-top-bar .logo-text { font-size: 1.35rem; }
@@ -799,3 +800,182 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
 .job-contact { font-size: 0.73rem; color: var(--text-light); margin-top: 0.5rem; font-style: italic; }
 .job-match-badge { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 99px; background: var(--olive-pale); color: var(--olive); white-space: nowrap; flex-shrink: 0; }
 .job-match-light { background: var(--sand-pale); color: #7A6040; }
+
+
+/* ════════════════════════════════════════════════
+   GLOBAL NAV BAR (injected by nav.js on every page)
+════════════════════════════════════════════════ */
+.global-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 600;
+  box-shadow: 0 1px 8px rgba(35,73,112,0.07);
+}
+
+.gnav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gnav-logo .logo-mark { font-size: 1.2rem; color: var(--terracotta); }
+.gnav-logo .logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--olive); letter-spacing: -0.02em; }
+
+.gnav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.gnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.gnav-link:hover { background: var(--cream); color: var(--text-dark); }
+.gnav-link.gnav-active {
+  background: var(--olive-pale);
+  color: var(--olive);
+}
+
+@media (max-width: 480px) {
+  .global-nav { padding: 0 1rem; }
+  .gnav-logo .logo-text { font-size: 1.15rem; }
+  .gnav-link { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+}
+
+
+/* ════════════════════════════════════════════════
+   HOME PAGE — Two-Pillar Landing (index.html)
+════════════════════════════════════════════════ */
+.pillar-home-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  min-height: calc(100vh - var(--nav-h) - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.pillar-home-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.pillar-home-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--olive);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+.pillar-home-sub {
+  font-size: 1rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
+
+.pillar-home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.pillar-home-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.18s, border-color 0.18s;
+}
+.pillar-home-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.pillar-home-card--community:hover { border-color: var(--olive); }
+.pillar-home-card--career:hover    { border-color: var(--terracotta); }
+
+.pillar-home-card-accent { height: 6px; }
+.pillar-home-card--community .pillar-home-card-accent { background: linear-gradient(90deg, var(--olive), var(--olive-light)); }
+.pillar-home-card--career    .pillar-home-card-accent { background: linear-gradient(90deg, var(--terracotta), var(--terracotta-lt)); }
+
+.pillar-home-card-body {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pillar-home-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+
+.pillar-home-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+
+.pillar-home-desc {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.pillar-home-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+.pillar-home-features li {
+  font-size: 0.83rem;
+  color: var(--text-mid);
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.45;
+}
+.pillar-home-features li::before { content: '✓'; position: absolute; left: 0; color: var(--olive-light); font-size: 0.8rem; }
+.pillar-home-card--career .pillar-home-features li::before { color: var(--terracotta-lt); }
+
+.pillar-home-cta {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-top: auto;
+  transition: color 0.15s;
+}
+.pillar-home-card--career .pillar-home-cta { color: var(--terracotta); }
+.pillar-home-card:hover .pillar-home-cta { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .pillar-home-grid { grid-template-columns: 1fr; }
+  .pillar-home-title { font-size: 1.9rem; }
+  .pillar-home-main { padding: 2rem 1.25rem 1.5rem; }
+}
