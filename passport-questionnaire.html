@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waypost — Build Your Skills Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="passport-questionnaire">
+    <header class="site-header">
+      <a href="career.html" class="back-to-towns">← Career Home</a>
+      <div class="logo">
+        <span class="logo-mark">⊕</span>
+        <span class="logo-text">Waypost</span>
+      </div>
+      <p class="logo-tagline">Skills Passport Builder</p>
+    </header>
+
+    <main class="questionnaire-container">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <p class="progress-label" id="progress-label">Step 1 of 6</p>
+
+      <!-- ─── Step 1: Welcome ─────────────────────── -->
+      <div class="step active" id="step-1">
+        <div class="step-header">
+          <span class="step-eyebrow">Welcome</span>
+          <h1 class="step-title">Let's build your<br>Skills Passport.</h1>
+          <p class="step-subtitle">This takes about 5 minutes. What you build here will generate a resume, cover letter, interview prep, and matched local job listings — all tailored to your experience.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label for="passport-name" class="field-label">What's your first name?</label>
+            <input type="text" id="passport-name" class="text-input" placeholder="e.g. Sarah"
+              autocomplete="given-name" onkeydown="if(event.key==='Enter') nextPassportStep(1)">
+            <p class="field-error hidden" id="name-error">Please enter your name to continue.</p>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-primary" onclick="nextPassportStep(1)">Let's go &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 2: Resume Upload ───────────────── -->
+      <div class="step" id="step-2">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Resume</span>
+          <h2 class="step-title">Got a resume? Upload it to get a head start.</h2>
+          <p class="step-subtitle">Optional — upload a PDF or Word file and we'll extract the text so you don't have to retype everything. You can edit it on the next screen. Skip this step and fill in your history manually if you prefer.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label class="field-label">Upload your resume <span class="field-hint">(PDF or .docx, optional)</span></label>
+            <div class="resume-upload-area" id="resume-upload-area">
+              <span class="resume-upload-icon">📄</span>
+              <p class="resume-upload-prompt">Click to choose a file, or drag and drop here</p>
+              <p class="resume-upload-types">PDF or Word (.docx)</p>
+              <input type="file" id="resume-file-input" accept=".pdf,.docx" onchange="handleResumeUpload(this)">
+            </div>
+            <div id="resume-status" class="resume-status hidden"></div>
+          </div>
+          <div class="field-group" id="resume-text-group" style="display:none;">
+            <label for="resume-text-area" class="field-label">Extracted text <span class="field-hint">(clean up or edit as needed)</span></label>
+            <textarea id="resume-text-area" class="resume-textarea"
+              placeholder="Your resume text will appear here after uploading…"></textarea>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevPassportStep(2)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextPassportStep(2)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 3: Work History ────────────────── -->
+      <div class="step" id="step-3">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Experience</span>
+          <h2 class="step-title">Tell us about your work history.</h2>
+          <p class="step-subtitle">Add your paid roles below. Volunteer leadership and community roles come next — don't worry about those yet. Approximate years are fine.</p>
+        </div>
+        <div class="step-body">
+          <div id="work-entries">
+            <!-- First entry is hardcoded; additional entries added by JS -->
+            <div class="work-entry" id="work-entry-0">
+              <div class="work-entry-header">
+                <span class="work-entry-label">Role 1</span>
+              </div>
+              <div class="work-entry-fields">
+                <div class="field-group">
+                  <label class="field-label">Job title</label>
+                  <input type="text" class="text-input work-title" placeholder="e.g. Office Manager, RN, Teacher">
+                </div>
+                <div class="work-entry-row">
+                  <div class="field-group">
+                    <label class="field-label">Employer <span class="field-hint">(optional)</span></label>
+                    <input type="text" class="text-input work-employer" placeholder="e.g. Medical Associates">
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label">Approximate years</label>
+                    <select class="text-input work-years">
+                      <option value="">Select…</option>
+                      <option value="less-than-1">Less than 1 year</option>
+                      <option value="1-2">1–2 years</option>
+                      <option value="3-5">3–5 years</option>
+                      <option value="5-10">5–10 years</option>
+                      <option value="10+">10+ years</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Industry / field</label>
+                  <select class="text-input work-industry" id="work-industry-0">
+                    <option value="">Select closest match…</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-add-work" id="add-work-btn" onclick="addWorkEntry()">+ Add another role</button>
+
+          <!-- Volunteer roles -->
+          <div class="field-group volunteer-section">
+            <label class="field-label">Volunteer &amp; community leadership <span class="field-hint">(select all that apply)</span></label>
+            <p class="volunteer-desc">These count. FRG leadership, PTO, spouse club — we'll translate them into professional language.</p>
+            <div class="checkbox-grid wide" id="volunteer-checkboxes">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevPassportStep(3)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextPassportStep(3)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 4: Employment Gaps ────────────── -->
+      <div class="step" id="step-4">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Employment Journey</span>
+          <h2 class="step-title">Did you have any gaps in employment?</h2>
+          <p class="step-subtitle">Gaps are common in military spouse careers — and there's professional language for all of them. We'll translate yours into something you can put on paper with confidence.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label class="field-label">Did you have an employment gap of 6 months or more?</label>
+            <div class="toggle-group">
+              <button class="toggle-btn" data-group="hasGap" data-value="yes" onclick="togglePassportSelect(this)">Yes</button>
+              <button class="toggle-btn" data-group="hasGap" data-value="no" onclick="togglePassportSelect(this)">No — my employment was continuous</button>
+            </div>
+          </div>
+
+          <div id="gap-entries-section" style="display:none;">
+            <div id="gap-entries">
+              <div class="gap-entry" id="gap-entry-0">
+                <div class="work-entry-header">
+                  <span class="work-entry-label">Gap 1</span>
+                </div>
+                <div class="work-entry-fields">
+                  <div class="work-entry-row">
+                    <div class="field-group">
+                      <label class="field-label">What caused this gap?</label>
+                      <select class="text-input gap-type" id="gap-type-0">
+                        <option value="">Select…</option>
+                      </select>
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label">How long?</label>
+                      <select class="text-input gap-duration">
+                        <option value="">Select…</option>
+                        <option value="3-6mo">3–6 months</option>
+                        <option value="6-12mo">6–12 months</option>
+                        <option value="1-2yr">1–2 years</option>
+                        <option value="2-5yr">2–5 years</option>
+                        <option value="5yr+">5+ years</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label">Anything you'd like to add? <span class="field-hint">(optional)</span></label>
+                    <textarea class="text-input gap-description" rows="2"
+                      placeholder="e.g. We were stationed in 29 Palms and there were no jobs in my field locally."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-add-work" id="add-gap-btn" onclick="addGapEntry()">+ Add another gap</button>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevPassportStep(4)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextPassportStep(4)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 5: Skills ─────────────────────── -->
+      <div class="step" id="step-5">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Skills</span>
+          <h2 class="step-title">Which of these categories fit your experience?</h2>
+          <p class="step-subtitle">Select all that apply — paid work, volunteer roles, and transferable skills all count. These categories are how job listings will be matched to your profile.</p>
+        </div>
+        <div class="step-body">
+          <div class="checkbox-grid wide" id="skill-category-checkboxes">
+            <!-- Populated by JS from SKILL_CATEGORIES in translations.js -->
+          </div>
+          <div class="field-group" style="margin-top:1.75rem;">
+            <label class="field-label">Highest level of education completed</label>
+            <select class="text-input" id="education-level">
+              <option value="">Select…</option>
+              <option value="high-school">High school / GED</option>
+              <option value="some-college">Some college (no degree)</option>
+              <option value="associates">Associate's degree</option>
+              <option value="bachelors">Bachelor's degree</option>
+              <option value="masters">Master's degree</option>
+              <option value="doctoral">Doctoral degree</option>
+              <option value="certification">Professional certification / Trade / Bootcamp</option>
+            </select>
+          </div>
+          <div class="field-group" id="degree-name-group" style="display:none;">
+            <label class="field-label">Degree or certification name <span class="field-hint">(optional)</span></label>
+            <input type="text" class="text-input" id="degree-name"
+              placeholder="e.g. B.S. Business Administration, CPA, Cisco CCNA">
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevPassportStep(5)">&larr; Back</button>
+          <button class="btn-primary" onclick="nextPassportStep(5)">Next &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ─── Step 6: Career Goals ────────────────── -->
+      <div class="step" id="step-6">
+        <div class="step-header">
+          <span class="step-eyebrow">Your Goals</span>
+          <h2 class="step-title">What are you looking for?</h2>
+          <p class="step-subtitle">This shapes the tone of your documents and how job listings are presented to you.</p>
+        </div>
+        <div class="step-body">
+          <div class="field-group">
+            <label class="field-label">Work preference</label>
+            <div class="toggle-group">
+              <button class="toggle-btn" data-group="workPref" data-value="full-time" onclick="togglePassportSelect(this)">Full-time</button>
+              <button class="toggle-btn" data-group="workPref" data-value="part-time" onclick="togglePassportSelect(this)">Part-time</button>
+              <button class="toggle-btn" data-group="workPref" data-value="either" onclick="togglePassportSelect(this)">Either</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Location preference</label>
+            <div class="toggle-group">
+              <button class="toggle-btn" data-group="locationPref" data-value="in-person" onclick="togglePassportSelect(this)">In-person</button>
+              <button class="toggle-btn" data-group="locationPref" data-value="remote" onclick="togglePassportSelect(this)">Remote</button>
+              <button class="toggle-btn" data-group="locationPref" data-value="hybrid" onclick="togglePassportSelect(this)">Hybrid</button>
+              <button class="toggle-btn" data-group="locationPref" data-value="flexible" onclick="togglePassportSelect(this)">Flexible</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="goals-context" class="field-label">Anything else about your goals? <span class="field-hint">(optional)</span></label>
+            <textarea id="goals-context" class="text-input" rows="3"
+              placeholder="e.g. I'd love to get back into healthcare management. I'm open to entry-level if the growth path is clear."></textarea>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-secondary" onclick="prevPassportStep(6)">&larr; Back</button>
+          <button class="btn-primary btn-generate" onclick="buildPassport()">Build My Passport &rarr;</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PDF.js for resume text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- Mammoth.js for .docx extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="translations.js"></script>
+  <script src="passport-app.js"></script>
+</body>
+</html>

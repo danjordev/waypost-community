@@ -64,12 +64,18 @@ async function loadFromCloud() {
   localStorage.setItem('wp_todos',    JSON.stringify(todoGroups));
   localStorage.setItem('wp_contacts', JSON.stringify(contacts));
 
-  // Re-render all panels with the merged data
-  renderSavedPanel();
-  renderTodoPanel();
-  renderContactsPanel();
-  restoreCardStates();
-  updateBadges();
+  // Keep passport data in sync (used by passport.js)
+  if (data.passport)      localStorage.setItem('wp_passport',       JSON.stringify(data.passport));
+  if (data.passportSaved) localStorage.setItem('wp_passport_saved', JSON.stringify(data.passportSaved));
+
+  // Re-render all panels with the merged data (functions may not exist on passport.html — guard each)
+  if (typeof renderSavedPanel    === 'function') renderSavedPanel();
+  if (typeof renderTodoPanel     === 'function') renderTodoPanel();
+  if (typeof renderContactsPanel === 'function') renderContactsPanel();
+  if (typeof restoreCardStates   === 'function') restoreCardStates();
+  if (typeof updateBadges        === 'function') updateBadges();
+  // On passport.html, re-render its saved panel
+  if (typeof renderPassportSavedPanel === 'function') renderPassportSavedPanel();
 }
 
 // ── Save to Firestore ────────────────────────────
@@ -78,10 +84,15 @@ async function loadFromCloud() {
 async function syncToCloud() {
   if (!currentUser) return;
   try {
+    // Include passport data if it exists
+    const passportData  = JSON.parse(localStorage.getItem('wp_passport')       || 'null');
+    const passportSaved = JSON.parse(localStorage.getItem('wp_passport_saved') || '[]');
     await _db.collection('users').doc(currentUser.uid).set({
       savedItems,
       todoGroups,
       contacts,
+      ...(passportData                 ? { passport: passportData }         : {}),
+      ...(passportSaved && passportSaved.length ? { passportSaved }         : {}),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   } catch (e) {
