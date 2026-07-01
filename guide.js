@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderContactsPanel();
   updateBadges();
   setupTabs();
+  initAuth(); // firebase.js — sets up auth state listener
 });
 
 // ── Tab Setup ──────────────────────────────────────
@@ -534,6 +535,8 @@ function persistAll() {
   localStorage.setItem('wp_saved',    JSON.stringify(savedItems));
   localStorage.setItem('wp_todos',    JSON.stringify(todoGroups));
   localStorage.setItem('wp_contacts', JSON.stringify(contacts));
+  // If signed in, sync to Firestore in the background (firebase.js)
+  if (typeof syncToCloud === 'function' && currentUser) syncToCloud();
 }
 
 // ── Toast ──────────────────────────────────────────
@@ -549,6 +552,115 @@ function showToast(msg) {
 function uid(prefix) { return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`; }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function has(arr, val) { return Array.isArray(arr) && arr.includes(val); }
+
+
+// ══════════════════════════════════════════════════
+// ACCOUNT UI  (auth actions are in firebase.js)
+// ══════════════════════════════════════════════════
+
+let authMode = 'signin'; // 'signin' | 'signup'
+
+// Called by firebase.js whenever auth state changes
+function updateAccountUI(user) {
+  const guestEl = document.getElementById('account-guest');
+  const userEl  = document.getElementById('account-user');
+  const emailEl = document.getElementById('account-email-display');
+  if (!guestEl || !userEl) return;
+  if (user) {
+    guestEl.classList.add('hidden');
+    userEl.classList.remove('hidden');
+    if (emailEl) emailEl.textContent = user.email;
+  } else {
+    guestEl.classList.remove('hidden');
+    userEl.classList.add('hidden');
+  }
+}
+
+function openAuthModal(mode = 'signin') {
+  authMode = mode;
+  document.getElementById('auth-email').value    = '';
+  document.getElementById('auth-password').value = '';
+  clearAuthError();
+  setAuthLoading(false);
+  switchAuthTab(mode);
+  document.getElementById('auth-modal-overlay').classList.remove('hidden');
+  setTimeout(() => document.getElementById('auth-email').focus(), 80);
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-modal-overlay').classList.add('hidden');
+}
+
+function switchAuthTab(mode) {
+  authMode = mode;
+  document.getElementById('auth-tab-signin').classList.toggle('active', mode === 'signin');
+  document.getElementById('auth-tab-signup').classList.toggle('active', mode === 'signup');
+  const btn = document.getElementById('auth-submit-btn');
+  if (btn) btn.textContent = mode === 'signin' ? 'Sign In' : 'Create Account';
+  clearAuthError();
+}
+
+function submitAuthForm() {
+  const email    = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+  // Delegates to firebase.js
+  if (authMode === 'signin') doSignIn(email, password);
+  else                       doSignUp(email, password);
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+
+function clearAuthError() {
+  const el = document.getElementById('auth-error');
+  if (el) { el.textContent = ''; el.classList.add('hidden'); }
+}
+
+function setAuthLoading(loading) {
+  const btn = document.getElementById('auth-submit-btn');
+  if (!btn) return;
+  btn.disabled    = loading;
+  btn.textContent = loading ? 'Please wait…' : (authMode === 'signin' ? 'Sign In' : 'Create Account');
+}
+
+
+// ══════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════
+
+function downloadPDF() {
+  const el = document.getElementById('guide-content');
+  if (!el || typeof html2pdf === 'undefined') {
+    showToast('PDF library not loaded — try refreshing');
+    return;
+  }
+
+  // Hide interactive chrome that shouldn't appear in the PDF
+  const hidden = el.querySelectorAll('.card-actions, .guide-pill');
+  hidden.forEach(e => e.style.display = 'none');
+
+  showToast('Preparing PDF…');
+
+  html2pdf()
+    .set({
+      margin:      [12, 12, 12, 12],
+      filename:    'Waypost-Fallbrook-Guide.pdf',
+      image:       { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    })
+    .from(el)
+    .save()
+    .then(() => {
+      hidden.forEach(e => e.style.display = '');
+      showToast('PDF downloaded ✓');
+    });
+}
 
 
 // ══════════════════════════════════════════════════

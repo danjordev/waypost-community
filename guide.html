@@ -21,6 +21,22 @@
       <div class="sidebar-town" id="sidebar-town">Fallbrook, CA</div>
       <a href="questionnaire.html" class="sidebar-back-link">← Redo my answers</a>
       <a href="index.html" class="sidebar-change-link">Change town</a>
+
+      <!-- PDF download (no account needed) -->
+      <button class="btn-pdf" onclick="downloadPDF()">⬇ Download as PDF</button>
+
+      <!-- Account strip — guest (default) -->
+      <div class="account-strip" id="account-guest">
+        <button class="account-sync-btn" onclick="openAuthModal('signup')">☁ Save to account (free)</button>
+        <span class="account-signin-hint">Already have one? <button class="account-signin-link" onclick="openAuthModal('signin')">Sign in</button></span>
+      </div>
+
+      <!-- Account strip — signed in (hidden until auth resolves) -->
+      <div class="account-strip account-strip-user hidden" id="account-user">
+        <span class="account-synced-dot">●</span>
+        <span class="account-email-display" id="account-email-display"></span>
+        <button class="account-signout-btn" onclick="doSignOut()">Sign out</button>
+      </div>
     </div>
 
     <div class="sidebar-tabs" id="sidebar-tabs">
@@ -180,9 +196,56 @@
     </div>
   </div>
 
+  <!-- ── Auth Modal ── -->
+  <div class="modal-overlay hidden" id="auth-modal-overlay">
+    <div class="modal" id="auth-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Your Waypost Account</h3>
+        <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+      </div>
+      <p class="auth-modal-sub">Your saved items, to-dos, and contacts will sync across any device.</p>
+
+      <!-- Sign In / Create Account tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="auth-tab-signin" onclick="switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab" id="auth-tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+      </div>
+
+      <!-- Error message -->
+      <div class="auth-error hidden" id="auth-error"></div>
+
+      <div class="modal-fields">
+        <div class="modal-field">
+          <label class="modal-label">Email</label>
+          <input type="email" class="modal-input" id="auth-email" placeholder="you@example.com"
+            onkeydown="if(event.key==='Enter') document.getElementById('auth-password').focus()">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Password</label>
+          <input type="password" class="modal-input" id="auth-password" placeholder="6 or more characters"
+            onkeydown="if(event.key==='Enter') submitAuthForm()">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeAuthModal()">Cancel</button>
+        <button class="btn-primary" id="auth-submit-btn" onclick="submitAuthForm()">Sign In</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Toast ── -->
   <div class="toast hidden" id="toast"></div>
 
+  <!-- Firebase SDK (compat — works without a bundler) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- html2pdf (client-side PDF generation, no server needed) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script src="firebase.js"></script>
   <script src="guide.js"></script>
 </body>
 </html>

@@ -469,4 +469,154 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream)
   .home-main { padding: 2rem 1.25rem 3rem; }
   .home-title { font-size: 2rem; }
   .town-grid { grid-template-columns: 1fr; }
+
+  /* Account strip on mobile — hide the sign-in hint to save space */
+  .account-signin-hint { display: none; }
+}
+
+
+/* ════════════════════════════════════════════════
+   PDF BUTTON
+════════════════════════════════════════════════ */
+.btn-pdf {
+  display: block;
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-pdf:hover {
+  background: var(--white);
+  border-color: var(--text-mid);
+  color: var(--text-dark);
+}
+
+
+/* ════════════════════════════════════════════════
+   ACCOUNT STRIP (sidebar)
+════════════════════════════════════════════════ */
+.account-strip {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Guest state */
+.account-sync-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.81rem;
+  font-weight: 600;
+  color: var(--olive);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: color 0.15s;
+}
+.account-sync-btn:hover { color: var(--terracotta); }
+
+.account-signin-hint {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+.account-signin-link {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: var(--text-mid);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+.account-signin-link:hover { color: var(--olive); }
+
+/* Signed-in state */
+.account-strip-user {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.account-synced-dot {
+  font-size: 0.6rem;
+  color: #4CAF50;
+  display: inline;
+  margin-right: 0.25rem;
+}
+.account-email-display {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  word-break: break-all;
+}
+.account-signout-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.account-signout-btn:hover { color: var(--terracotta); }
+
+
+/* ════════════════════════════════════════════════
+   AUTH MODAL
+════════════════════════════════════════════════ */
+.auth-modal-sub {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  margin-bottom: 1.1rem;
+  line-height: 1.5;
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 1.1rem;
+}
+.auth-tab {
+  flex: 1;
+  padding: 0.55rem 0.5rem;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1.5px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.auth-tab:hover { color: var(--text-mid); }
+.auth-tab.active { color: var(--olive); border-bottom-color: var(--olive); }
+
+.auth-error {
+  background: var(--terracotta-pale);
+  color: var(--terracotta);
+  font-size: 0.83rem;
+  font-weight: 500;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.9rem;
+  line-height: 1.45;
 }
